@@ -1,0 +1,9 @@
+CSpeak[1] is a very simple speech synthesis library written in C. It consists
+of only ~140 lines of code, half of which is a formant lookup table.
+
+For a demo, run the daisy.sh script.
+
+The table of formants and the Daisy Bell demo are adapted from Cantarino[2].
+
+[1] http://da.vidr.cc/projects/cspeak/
+[2] http://code.google.com/p/tinkerit/wiki/Cantarino
