@@ -1,9 +1,9 @@
 CC = gcc
-SRCS = daisy.c cspeak.c
 LIBS = -lm
 
 all:
-	$(CC) -o daisy $(SRCS) $(LIBS)
+	$(CC) -o daisy daisy.c cspeak.c $(LIBS)
+	$(CC) -o reciter reciter.c cspeak.c $(LIBS)
 
 clean:
-	rm daisy
+	rm daisy reciter

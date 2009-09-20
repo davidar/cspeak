@@ -19,7 +19,7 @@
 #ifndef CSPEAK_H
 #define CSPEAK_H
 
-typedef enum {
+typedef enum { _NUL,
     _IY, _IH, _EH, _AE, _AA, _AH, _AO, _UH, _AX, _IX, _ER, _UX, _OH, _RX, _LX,
     _WX, _YX, _WH, _R, _L, _W, _Y, _M, _N, _NX, _DX, _Q, _S, _SH, _F, _TH, __H,
     __X, _Z, _ZH, _V, _DH, _CHa, _CHb, _Ja, _Jb, _Jc, _Jd, _EY, _AY, _OY, _AW,
