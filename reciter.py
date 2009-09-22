@@ -291,17 +291,22 @@ def apply_r_deletion_rule(phonemes):
                    .replace('RU','rU').replace('R3','r3').replace('R@','r@') \
                    .replace('RQ','rQ').replace('RV','rV').replace('R{','r{')
 
+def convert_word(word):
+    word = '(' + word.upper().replace("'","-'") + ')'
+    output = ['']*len(word)
+    for rule in rules:
+        word = apply_rule(word, rule, output)
+    phonemes = ''.join(output)
+    phonemes = apply_plural_rule(phonemes)
+    phonemes = apply_past_tense_rule(phonemes)
+    phonemes = apply_r_deletion_rule(phonemes)
+    return phonemes
+
 def main():
-    phrase = ' '.join(sys.argv[1:]).upper().split()
+    phrase = ' '.join(sys.argv[1:]).replace('.',' .').replace(',',' ,').split()
     for word in phrase:
-        word = '(' + word + ')'
-        output = ['']*len(word)
-        for rule in rules:
-            word = apply_rule(word, rule, output)
-        phonemes = ''.join(output)
-        phonemes = apply_plural_rule(phonemes)
-        phonemes = apply_past_tense_rule(phonemes)
-        phonemes = apply_r_deletion_rule(phonemes)
-        print phonemes,
+        if word == ',': print ' ',
+        elif word == '.': print '  ',
+        else: print convert_word(word),
     print
 if __name__ == '__main__': main()

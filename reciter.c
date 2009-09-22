@@ -22,8 +22,8 @@
 
 /* Recite SAMPA phonemes read from stdin. */
 
-const int FRAMES_CONSONANT = 3;
-const int FRAMES_VOWEL = 10;
+const int FRAMES_CONSONANT = 6;
+const int FRAMES_VOWEL = 8;
 const int PITCH = 40;
 
 int peekchar(void) {

@@ -4,6 +4,12 @@ of only ~140 lines of code, half of which is a formant lookup table.
 For a demo, run the daisy.sh script. To perform text-to-speech (TTS) on an
 English phrase, run the reciter.sh script, e.g.:
     ./reciter.sh The quick brown fox jumps over the lazy dog.
+    ./reciter.sh "Daisy, Daisy, give me your answer do,
+                  I'm half crazy all for the love of you.
+                  It won't be a stylish marriage,
+                  I can't afford a carriage,
+                  But you'll look sweet upon the seat
+                  Of a bicycle made for two."
 
 The table of formants and the Daisy Bell demo are adapted from Cantarino[2].
 See [3] for a list of supported phonemes.
