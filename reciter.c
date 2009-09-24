@@ -24,7 +24,12 @@
 
 const int FRAMES_CONSONANT = 6;
 const int FRAMES_VOWEL = 8;
-const int PITCH = 40;
+const int PITCH = 50;
+
+#define CONSONANT if(phase==-1 || phase%2==1) phase++;
+#define VOWEL if(phase==-1) phase = 1; \
+              else if(phase%2==0) phase++; \
+              if(phase>2) pitch = PITCH-2;
 
 int peekchar(void) {
     int c = getchar();
@@ -34,102 +39,127 @@ int peekchar(void) {
 
 int main() {
     char c;
+    int phase = -1;
+    int pitch = PITCH;
+    
     while((c = getchar()) != EOF)
         switch(c) {
-        case ' ': case '\n': synth(_NUL,FRAMES_CONSONANT,PITCH); break;
-        case 'p': synth(_Pa,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Pb,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Pc,FRAMES_CONSONANT/3,PITCH);
-                  break;
-        case 'b': synth(_Ba,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Bb,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Bc,FRAMES_CONSONANT/3,PITCH);
-                  break;
-        case 't': if(peekchar() == 'S') {
-                      synth(_CHa,FRAMES_CONSONANT/2,PITCH);
-                      synth(_CHb,FRAMES_CONSONANT/2,PITCH);
+        case ' ': case '\n':
+            synth(_NUL,FRAMES_VOWEL,pitch);
+            phase = -1;
+            pitch = PITCH;
+            break;
+        
+        case 't': CONSONANT
+                  if(peekchar() == 'S') {
+                      synth(_CHa,FRAMES_CONSONANT,pitch);
+                      synth(_CHb,FRAMES_CONSONANT,pitch);
                       getchar();
                   } else {
-                      synth(_Ta,FRAMES_CONSONANT/3,PITCH);
-                      synth(_Tb,FRAMES_CONSONANT/3,PITCH);
-                      synth(_Tc,FRAMES_CONSONANT/3,PITCH);
+                      synth(_Ta,FRAMES_CONSONANT/3,pitch);
+                      synth(_Tb,FRAMES_CONSONANT/3,pitch);
+                      synth(_Tc,FRAMES_CONSONANT/3,pitch);
                   }
                   break;
-        case 'd': if(peekchar() == 'Z') {
-                      synth(_Ja,FRAMES_CONSONANT/4,PITCH);
-                      synth(_Jb,FRAMES_CONSONANT/4,PITCH);
-                      synth(_Jc,FRAMES_CONSONANT/4,PITCH);
-                      synth(_Jd,FRAMES_CONSONANT/4,PITCH);
+        case 'd': CONSONANT
+                  if(peekchar() == 'Z') {
+                      synth(_Ja,FRAMES_CONSONANT/4,pitch);
+                      synth(_Jb,FRAMES_CONSONANT/4,pitch);
+                      synth(_Jc,FRAMES_CONSONANT/4,pitch);
+                      synth(_Jd,FRAMES_CONSONANT/4,pitch);
                       getchar();
                   } else {
-                      synth(_Da,FRAMES_CONSONANT/3,PITCH);
-                      synth(_Db,FRAMES_CONSONANT/3,PITCH);
-                      synth(_Dc,FRAMES_CONSONANT/3,PITCH);
+                      synth(_Da,FRAMES_CONSONANT/3,pitch);
+                      synth(_Db,FRAMES_CONSONANT/3,pitch);
+                      synth(_Dc,FRAMES_CONSONANT/3,pitch);
                   }
                   break;
-        case 'k': synth(_Ka,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Kb,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Kc,FRAMES_CONSONANT/3,PITCH);
+        case 'p': CONSONANT
+                  synth(_Pa,FRAMES_CONSONANT/3,pitch);
+                  synth(_Pb,FRAMES_CONSONANT/3,pitch);
+                  synth(_Pc,FRAMES_CONSONANT/3,pitch);
                   break;
-        case 'g': synth(_Ga,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Gb,FRAMES_CONSONANT/3,PITCH);
-                  synth(_Gc,FRAMES_CONSONANT/3,PITCH);
+        case 'b': CONSONANT
+                  synth(_Ba,FRAMES_CONSONANT/3,pitch);
+                  synth(_Bb,FRAMES_CONSONANT/3,pitch);
+                  synth(_Bc,FRAMES_CONSONANT/3,pitch);
                   break;
-        case 'f': synth(_F,FRAMES_CONSONANT,PITCH); break;
-        case 'v': synth(_V,FRAMES_CONSONANT,PITCH); break;
-        case 'T': synth(_TH,FRAMES_CONSONANT,PITCH); break;
-        case 'D': synth(_DH,FRAMES_CONSONANT,PITCH); break;
-        case 's': synth(_S,FRAMES_CONSONANT,PITCH); break;
-        case 'z': synth(_Z,FRAMES_CONSONANT,PITCH); break;
-        case 'S': synth(_SH,FRAMES_CONSONANT,PITCH); break;
-        case 'Z': synth(_ZH,FRAMES_CONSONANT,PITCH); break;
-        case 'h': synth(__H,FRAMES_CONSONANT,PITCH); break;
-        case 'm': synth(_M,FRAMES_CONSONANT,PITCH); break;
-        case 'n': synth(_N,FRAMES_CONSONANT,PITCH); break;
-        case 'N': synth(_NX,FRAMES_CONSONANT,PITCH); break;
-        case 'R': synth(_RX,FRAMES_CONSONANT,PITCH); break;
-        case 'r': synth(_R,FRAMES_CONSONANT,PITCH); break;
-        case 'l': synth(_L,FRAMES_CONSONANT,PITCH); break;
-        case 'w': synth(_W,FRAMES_CONSONANT,PITCH); break;
-        case 'j': synth(_Y,FRAMES_CONSONANT,PITCH); break;
-        case 'I': synth(_IH,FRAMES_VOWEL,PITCH); break;
-        case 'e': if(peekchar() == 'I') {
-                      synth(_EY,FRAMES_VOWEL,PITCH);
-                      getchar();
-                  } else {
-                      synth(_EH,FRAMES_VOWEL,PITCH);
-                  }
+        case 'k': CONSONANT
+                  synth(_Ka,FRAMES_CONSONANT/3,pitch);
+                  synth(_Kb,FRAMES_CONSONANT/3,pitch);
+                  synth(_Kc,FRAMES_CONSONANT/3,pitch);
                   break;
-        case '{': synth(_AE,FRAMES_VOWEL,PITCH); break;
-        case 'Q': synth(_AA,FRAMES_VOWEL,PITCH); break;
-        case 'V': synth(_AH,FRAMES_VOWEL,PITCH); break;
-        case 'U': synth(_UH,FRAMES_VOWEL,PITCH); break;
-        case '@': if(peekchar() == 'U') {
-                      synth(_OW,FRAMES_VOWEL,PITCH);
-                      getchar();
-                  } else {
-                      synth(_ER,FRAMES_VOWEL,PITCH);
-                  }
+        case 'g': CONSONANT
+                  synth(_Ga,FRAMES_CONSONANT/3,pitch);
+                  synth(_Gb,FRAMES_CONSONANT/3,pitch);
+                  synth(_Gc,FRAMES_CONSONANT/3,pitch);
                   break;
-        case 'i': synth(_IY,FRAMES_VOWEL,PITCH); break;
-        case 'a': if(peekchar() == 'I') {
-                      synth(_AY,FRAMES_VOWEL,PITCH);
+        case 'f': CONSONANT synth(_F, FRAMES_CONSONANT,pitch); break;
+        case 'v': CONSONANT synth(_V, FRAMES_CONSONANT,pitch); break;
+        case 'T': CONSONANT synth(_TH,FRAMES_CONSONANT,pitch); break;
+        case 'D': CONSONANT synth(_DH,FRAMES_CONSONANT,pitch); break;
+        case 's': CONSONANT synth(_S, FRAMES_CONSONANT,pitch); break;
+        case 'z': CONSONANT synth(_Z, FRAMES_CONSONANT,pitch); break;
+        case 'S': CONSONANT synth(_SH,FRAMES_CONSONANT,pitch); break;
+        case 'Z': CONSONANT synth(_ZH,FRAMES_CONSONANT,pitch); break;
+        case 'h': CONSONANT synth(__H,FRAMES_CONSONANT,pitch); break;
+        case 'm': CONSONANT synth(_M, FRAMES_CONSONANT,pitch); break;
+        case 'n': CONSONANT synth(_N, FRAMES_CONSONANT,pitch); break;
+        case 'N': CONSONANT synth(_NX,FRAMES_CONSONANT,pitch); break;
+        case 'R': CONSONANT synth(_RX,FRAMES_CONSONANT,pitch); break;
+        case 'r': CONSONANT synth(_R, FRAMES_CONSONANT,pitch); break;
+        case 'l': CONSONANT synth(_L, FRAMES_CONSONANT,pitch); break;
+        case 'w': CONSONANT synth(_W, FRAMES_CONSONANT,pitch); break;
+        case 'j': CONSONANT synth(_Y, FRAMES_CONSONANT,pitch); break;
+        
+        case 'a': VOWEL
+                  if(peekchar() == 'I') {
+                      synth(_AY,FRAMES_VOWEL,pitch);
+                      synth(_YX,FRAMES_CONSONANT,pitch);
                       getchar();
                   } else if(peekchar() == 'U') {
-                      synth(_AW,FRAMES_VOWEL,PITCH);
+                      synth(_AW,FRAMES_VOWEL,pitch);
+                      synth(_WX,FRAMES_CONSONANT,pitch);
                       getchar();
                   }
                   break;
-        case 'O': if(peekchar() == 'I') {
-                      synth(_OY,FRAMES_VOWEL,PITCH);
+        case 'e': VOWEL
+                  if(peekchar() == 'I') {
+                      synth(_EY,FRAMES_VOWEL,pitch);
+                      synth(_YX,FRAMES_CONSONANT,pitch);
                       getchar();
                   } else {
-                      synth(_AO,FRAMES_VOWEL,PITCH); break;
+                      synth(_EH,FRAMES_VOWEL,pitch);
                   }
                   break;
-        case 'u': synth(_UX,FRAMES_VOWEL,PITCH); break;
-        case '3': synth(_ER,FRAMES_VOWEL,PITCH); break;
-        case 'A': synth(_AH,FRAMES_VOWEL,PITCH); break;
+        case '@': VOWEL
+                  if(peekchar() == 'U') {
+                      synth(_OW,FRAMES_VOWEL,pitch);
+                      synth(_WX,FRAMES_CONSONANT,pitch);
+                      getchar();
+                  } else {
+                      synth(_ER,FRAMES_VOWEL,pitch);
+                  }
+                  break;
+        case 'O': VOWEL
+                  if(peekchar() == 'I') {
+                      synth(_OY,FRAMES_VOWEL,pitch);
+                      synth(_YX,FRAMES_CONSONANT,pitch);
+                      getchar();
+                  } else {
+                      synth(_AO,FRAMES_VOWEL,pitch); break;
+                  }
+                  break;
+        case 'I': VOWEL synth(_IH,FRAMES_VOWEL,pitch); break;
+        case '{': VOWEL synth(_AE,FRAMES_VOWEL,pitch); break;
+        case 'Q': VOWEL synth(_AA,FRAMES_VOWEL,pitch); break;
+        case 'V': VOWEL synth(_AH,FRAMES_VOWEL,pitch); break;
+        case 'U': VOWEL synth(_UH,FRAMES_VOWEL,pitch); break;
+        case 'i': VOWEL synth(_IY,FRAMES_VOWEL,pitch); break;
+        case 'u': VOWEL synth(_UX,FRAMES_VOWEL,pitch); break;
+        case '3': VOWEL synth(_ER,FRAMES_VOWEL,pitch); break;
+        case 'A': VOWEL synth(_AH,FRAMES_VOWEL,pitch); break;
+        
         default: fprintf(stderr, "Unrecognised character: '%c'\n", c); break;
         }
     return 0;

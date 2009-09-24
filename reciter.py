@@ -292,7 +292,7 @@ def apply_r_deletion_rule(phonemes):
                    .replace('RQ','rQ').replace('RV','rV').replace('R{','r{')
 
 def convert_word(word):
-    word = '(' + word.upper().replace("'","-'") + ')'
+    word = '(' + word + ')'
     output = ['']*len(word)
     for rule in rules:
         word = apply_rule(word, rule, output)
@@ -302,11 +302,23 @@ def convert_word(word):
     phonemes = apply_r_deletion_rule(phonemes)
     return phonemes
 
+def analyse_word(word):
+    word = word.replace("'","-'")
+    if word.endswith('ED') and len(word) > 5:
+        word = word[:-2] + '-ED'
+    return word
+
 def main():
-    phrase = ' '.join(sys.argv[1:]).replace('.',' .').replace(',',' ,').split()
+    phrase = ' '.join(sys.argv[1:]) \
+        .replace('-',' ').replace('_',' ').replace('"',' ') \
+        .replace(',',' , ').replace('(',' ( ').replace(')',' ) ') \
+        .replace(':',' : ').replace(';',' ; ') \
+        .replace('.',' . ').replace('?',' ? ').replace('!',' ! ') \
+        .split()
     for word in phrase:
-        if word == ',': print ' ',
-        elif word == '.': print '  ',
-        else: print convert_word(word),
+        if   word in (',','(',')'): print ' ',
+        elif word in (':',';'): print '  ',
+        elif word in ('.','?','!'): print '   ',
+        else: print convert_word(analyse_word(word.upper())),
     print
 if __name__ == '__main__': main()
